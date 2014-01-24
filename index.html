@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>curl builder</title>
+    <link rel="stylesheet" href="css/pure-min.css" />
+    <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
+    <script src="js/less-1.6.1.min.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id='content' class='pure-form'>
+      <h1>Curl Request Builder</h1>
+      <fieldset class='pure-form-aligned'>
+        <div class='pure-control-group'>
+          <label for='uri-input'>URI</label>
+          <input id='uri-input' type='text' data-bind='value:uri, valueUpdate: "afterkeydown"' placeholder='http://...' />
+        </div>
+
+        <div class='pure-control-group'>
+          <label for='request-types'>Request Type</label>
+          <select id='request-types' data-bind='options:requestTypes, value:requestType'></select>
+        </div>
+
+        <div class='pure-control-group'>
+          <label>
+            <input type='radio' data-bind='checked:useRequestParameters' value='yes' /> Request Parameters
+          </label>
+          <table class='pure-table' style='display:inline-block;'>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type='text' data-bind='value:newParameterName, valueUpdate: "afterkeydown", enable:enabledParams' /></td>
+                <td><input type='text' data-bind='value:newParameterValue, valueUpdate: "afterkeydown", enable:enabledParams'/></td>
+                <td>
+                  <button type='button' class='pure-button button-xsmall' data-bind='enable:canAddParameter, click:addParameter'>
+                    + add
+                  </button>
+                </td>
+              </tr>
+              <!-- ko foreach: requestParameters -->
+                <tr>
+                  <td><input type='text' data-bind='value: $data.name, valueUpdate: "afterkeydown", enable:$root.enabledParams' /></td>
+                  <td><input type='text' data-bind='value: $data.value, valueUpdate: "afterkeydown", enable:$root.enabledParams' /></td>
+                  <td>
+                    <button type='button' class='pure-button button-xsmall ' data-bind='click:$root.removeRequestParameter'>
+                      - remove
+                    </button>
+                  </td>
+                </tr>
+              <!-- /ko -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class='pure-control-group'>
+          <label>
+            <input type='radio' data-bind='checked:useRequestParameters' value='no' /> Raw Body
+          </label>
+          <textarea class='mono pure-input-2-3' data-bind='value:rawBody, enable:enabledRawBody, valueUpdate: "afterkeydown"' placeholder='a=1&b=2....'></textarea>
+        </div>
+
+        <div class='pure-control-group'>
+          <label>Headers</label>
+          <table class='pure-table' style='display:inline-block;'>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type='text' data-bind='value:newHeaderName, valueUpdate: "afterkeydown"' /></td>
+                <td><input type='text' data-bind='value:newHeaderValue, valueUpdate: "afterkeydown"'/></td>
+                <td>
+                  <button type='button' class='pure-button button-xsmall' data-bind='click:addHeader, enable:canAddHeader'>
+                    + add
+                  </button>
+                </td>
+              </tr>
+              <!-- ko foreach: headers -->
+                <tr>
+                  <td><input type='text' data-bind='value: $data.name, valueUpdate: "afterkeydown"' /></td>
+                  <td><input type='text' data-bind='value: $data.value, valueUpdate: "afterkeydown"' /></td>
+                  <td>
+                    <button type='button' class='pure-button button-xsmall ' data-bind='click:$root.removeHeader'>
+                      - remove
+                    </button>
+                  </td>
+                </tr>
+              <!-- /ko -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class='pure-controls'>
+          <label class='pure-checkbox'>
+            <input type='checkbox' data-bind='checked:useBasicAuth' />
+            Use Basic Authentication
+          </label>
+        </div>
+        <div class='pure-control-group'>
+          <label>Username</label>
+          <input type='text' data-bind='value:basicAuthUser, enable:useBasicAuth, valueUpdate: "afterkeydown"' />
+        </div>
+        <div class='pure-control-group'>
+          <label>Password</label>
+          <input type='text' data-bind='value:basicAuthPassword, enable:useBasicAuth, valueUpdate: "afterkeydown"' />
+        </div>
+
+        <div class='pure-control-group'>
+          <label>Curl Request</label>
+          <div class='mono' style='display:inline-block' data-bind='text: curlRequest'></div>
+        </div>
+      </fieldset>
+    </div>
+    <script src="js/knockout-3.0.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>
